@@ -1,0 +1,40 @@
+.PickBoxOuter {
+    display:block;
+    overflow: hidden;
+    width: 100%;
+    block-size: fit-content;
+    background-color: rgb(202, 205, 50);
+  }
+  
+.PickBoxMiddle {
+  float: left;
+  width: 22rem;
+  height: max-content;
+  background-color:rgb(130, 193, 134);
+}
+
+.form-delivery {
+    background-color: rgb(204, 227, 141);
+  }
+
+.form-delivery label {
+  display: flex;
+  float: left; 
+  align-items: center;
+  background-color: aliceblue;
+  width: 80%;
+  height: 3rem;
+}
+
+.form-delivery input {
+}
+
+.center-checkbox {
+  display: flex;
+  float: left; 
+  align-items: center;
+  height: 3rem;
+  width:10%;
+  background-color: rgb(232, 163, 239); 
+}
+  

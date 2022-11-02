@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './App.css';
-import MapSection from './components/map/Map' // import the map here
+import DeliverySection from './components/delivery/Delivery'
+import SelectionSection from './components/selection/Selection'
 
 
 const App = () => {
@@ -41,40 +42,66 @@ const App = () => {
     [
         {
           "kind": "Abholung am Hof",
-          "address": "Wien, Naschmarkt",
+          "name": "Ertltal 5",
+          "address": "Ertltal 5, 3293 Lunz am See",
           "location": {lat: 47.83077274733878, lng: 14.975287682720353},
-          "time": "5.02.2022",
+          "date": "5.02.2022",
           "selected": false,
         }, 
         {
           "kind": "Abholung am Markt",
-          "address": "Wien, Markt autofreie Siedlung",
-          "location": {lat: 48.191165768222916, lng: 16.295433443905797},
-          "time": "2.12.2022",
+          "name": "Wien, Karmelitermarkt",
+          "address": "Karmelitermarkt, 1020 Wien",
+          "location": {lat: 48.21740808775208, lng: 16.37700875585073},
+          "date": "2.12.2022",
           "selected": false,
         },
         {
           "kind": "Abholung am Markt",
-          "address": "Wien, Naschmarkt",
-          "location": {lat: 48.197797511703385, lng: 16.361496443831278},
-          "time": "5.02.2022",
+          "name": "Wien, Südbahnhofbrücke",
+          "address": "Franz-Grill-Straße 11, 1030 Wien",
+          "location": {lat: 48.178872331194995, lng: 16.394581998078078},
+          "date": "5.02.2023",
           "selected": false,
         },
         {
           "kind": "Zulieferung",
-          "address": "Wien",
-          "location": {lat: 48.197797511703385, lng: 16.361496443831278},
-          "time": "5.02.2022",
+          "name": "Wien - ganztägig",
+          "address": null,
+          "location": null,
+          "date": "5.02.2023",
           "selected": false,
-        }
+        },
+        {
+          "kind": "Abholung am Markt",
+          "name": "Wien, autofreie Siedlung",
+          "address": "Feßtgasse 10, 1160 Wien",
+          "location": {lat: 48.21209670046745, lng: 16.32548089686887},
+          "date": "12.03.2023",
+          "selected": false,
+        },
     ]
   );
-
-  const findId = (products, name) => {
-    const res = [];
+  
+  // add id expressions to lists
+  const prepLists = (products, pickUpMethod) => {
     for(let i = 0; i < products.length; i++){
-      const item = products[i].name;
-      if(item !== name){
+      products[i]["id"]=products[i].name
+    };
+    for(let i = 0; i < pickUpMethod.length; i++){
+      pickUpMethod[i]["id"]=(pickUpMethod[i].name+pickUpMethod[i].date)
+    };
+    return products, pickUpMethod;
+  };
+  prepLists(products, pickUpMethod);
+
+  console.log(pickUpMethod);
+
+  const findId = (dictList, id) => {
+    const res = [];
+    for(let i = 0; i < dictList.length; i++){
+      const item = dictList[i].id;
+      if(item !== id){
         continue;
       };
     res.push(i);
@@ -104,137 +131,33 @@ const App = () => {
     setProduct([ ...newProducts ]);
   };
 
-  const handlePickUpSelection = (event) => {};
+  const handlePickUpSelection = (event) => {
+    console.log(event)
+    console.log(event.target.value)
+    console.log(event.target.checked)
+    let newPickUpMethod = [...pickUpMethod];
+    
+    if (event.target.checked) {
+      for(let i = 0; i < newPickUpMethod.length; i++){
+        if (newPickUpMethod[i].selected) {
+          newPickUpMethod[i].selected=false;
+        };
+      };
+    };
 
-  console.log("products")
-  console.log(products)
-  console.log("progress")
-  console.log(progress)
+    newPickUpMethod[findId(newPickUpMethod, event.target.id)].selected = event.target.checked;
+    setPickUpMethod([ ...newPickUpMethod ]);
+  };
   
   return (
     <div>
       <h1>Hier kannst du eine Bestellung aufgeben :)</h1>
 
-      <fieldset>
-      <legend> Wähle deine Produkte </legend>
-      <OrderList products={products} onSel={handleProductSelection} />
-      </fieldset>
+      <SelectionSection products={products} onSel={handleProductSelection} />
 
-      <BlendInPickUpList progress={progress} pickUpMethod={pickUpMethod} onSel={handlePickUpSelection} />
-     
-      <OrderOverview />
-      
-        
+      <DeliverySection progress={progress} pickUpMethod={pickUpMethod} onSel={handlePickUpSelection} /> 
     </div>
   );
-}
-
-const WithQuant = ({item, onSel}) => {
-  return (
-    <div className="sel-box" key={item.name}>
-      <div className="subsel-box">
-        <input id={item.name + "a"} type="checkbox" checked={item.selected} onChange={onSel} />
-        <label htmlFor={item.name + "a"}>{item.name}</label>
-      </div>
-      <div className="subsel-box">
-        <input id={item.name + "b"} type="text" onChange={onSel} />
-        <label htmlFor={item.name + "b"}>{item.quantity}</label>
-      </div>
-    </div>)
-}
-
-const WithoutQuant = ({item, onSel}) => {
-  return (
-    <div key={item.name}>
-      <div className="subsel-box">
-        <input id={item.name + "a"} type="checkbox" checked={item.selected} onChange={onSel} />
-        <label htmlFor={item.name + "a"}>{item.name}</label>
-      </div>
-    </div>)
-}
-
-const OrderList = ({products, onSel}) => {
-  let temp_dict={};
-  Object.assign(temp_dict, products);
-  // console.log(products);
-  return(
-    <form className="formi">
-      {products.map(function (item) {
-        if (item.selected) {
-          return <WithQuant item={item} onSel={onSel} />
-        }
-      return <WithoutQuant item={item} onSel={onSel} />
-      }
-      )}
-    </form>
-  );
-}
-
-const PickUpList = ({item, onSel}) => {
-  return (
-    <div key={item.address}>
-      <div>
-        <input id={item.address} type="checkbox" checked={item.selected} onChange={onSel} />
-        <label htmlFor={item.address}>{item.address}</label>
-      </div>
-    </div> 
-  );
-}
-
-const SelPickupKind = ({pickUpMethod, onSel}) => {
-  return (
-    <div className="PickBoxOuter">
-      <div className="PickBoxMiddle">
-        Abholung am Hof
-        <br/>
-        Ruf uns an unter 06764807812
-      </div>
-      <div className="PickBoxMiddle">
-        Abholung beim nächsten Markt
-        <br/>
-        Termine:
-        <form className="formi">
-          {pickUpMethod.map(function (item) {
-            if (item.kind==='Abholung am Markt') {
-              return <PickUpList item={item} onSel={onSel} />
-            }
-          })}
-        </form>
-      </div>
-      <div className="PickBoxMiddle">
-        Lieferung zu dir nach Hause
-        <br/>
-        Termine:
-        <form className="formi">
-          {pickUpMethod.map(function (item) {
-            if (item.kind==='Zulieferung') {
-            return <PickUpList item={item} onSel={onSel} />
-            }
-          })}
-        </form>
-      </div>
-    </div>
-  );
-}
-
-const BlendInPickUpList = ({progress, pickUpMethod, onSel}) => {
-  if (progress.prodSel) {
-
-    return (
-      <fieldset>
-        <legend> Wie möchtest du deine Bestellung erhalten? </legend>
-        <SelPickupKind pickUpMethod={pickUpMethod} onSel={onSel} />
-        <MapSection />
-      </fieldset>
-    );
-  }
-}
-
-const OrderOverview = () => {
-
-
-  return(1);
-  
 }
 
 export default App;

@@ -21,7 +21,6 @@ const Map = () => {
   });
 
   const handleZoomState = (event) => {
-    console.log(event.center);
     setZoomState({ ...zoomLevel, zoom: event.zoom, center: event.center, id: zoomLevel.id+1});
   };
 
@@ -34,7 +33,6 @@ const Map = () => {
 
   return (
     <div className="map">
-      <h2 className="map-h2">Come Visit Us At Our Campus</h2>
       <div className="google-map">
         <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyDmT9e5YEMfy2CyB2uHjUOGBgnr4oRSsm8' }}
@@ -42,7 +40,8 @@ const Map = () => {
           onChange={handleZoomState}
           zoom={zoomLevel.zoom}
           center={zoomLevel.center}
-        >
+        > 
+          <LoadPins />
           <LocationPin id={zoomLevel.id}
             lat={location.lat}
             lng={location.lng}

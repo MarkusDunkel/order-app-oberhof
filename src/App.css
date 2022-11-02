@@ -37,17 +37,3 @@ label {
   width: 140px;
   text-align: left;
 }
-
-.PickBoxOuter {
-  display:block;
-  width: 100%;
-  height: 200px;
-  background-color: rgb(202, 205, 50);
-}
-
-.PickBoxMiddle {
-  float: left;
-  width: 20%;
-  height: max-content;
-  background-color:rgb(130, 193, 134);
-}
