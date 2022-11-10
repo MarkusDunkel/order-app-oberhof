@@ -58,7 +58,7 @@ const BlendInPickUpList = ({progress, pickUpMethod, onSel}) => {
         <fieldset>
           <legend> Wie möchtest du deine Bestellung erhalten? </legend>
           <SelPickupKind pickUpMethod={pickUpMethod} onSel={onSel} />
-          <MapSection />
+          <MapSection pickUpMethod={pickUpMethod} onSel={onSel}/>
         </fieldset>
       );
     }

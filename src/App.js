@@ -132,9 +132,6 @@ const App = () => {
   };
 
   const handlePickUpSelection = (event) => {
-    console.log(event)
-    console.log(event.target.value)
-    console.log(event.target.checked)
     let newPickUpMethod = [...pickUpMethod];
     
     if (event.target.checked) {

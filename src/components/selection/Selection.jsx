@@ -27,7 +27,6 @@ const WithoutQuant = ({item, onSel}) => {
 const OrderList = ({products, onSel}) => {
     let temp_dict={};
     Object.assign(temp_dict, products);
-    // console.log(products);
     return(
       <form className="formi">
         {products.map(function (item) {

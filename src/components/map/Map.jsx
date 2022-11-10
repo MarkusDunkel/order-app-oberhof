@@ -5,8 +5,14 @@ import './map.css'
 import { Icon } from '@iconify/react'
 import locationIcon from '@iconify/icons-mdi/map-marker'
 
+const Map = ({pickUpMethod, onSel}) => {
 
-const Map = () => {
+  const LocationPin = ({ text }) => (
+    <div className="pin">
+      <Icon icon={locationIcon} className="pin-icon" />
+      <p className="pin-text">{text}</p>
+    </div>
+  );
   
   const location = {
     address: 'Oberhof',
@@ -24,13 +30,6 @@ const Map = () => {
     setZoomState({ ...zoomLevel, zoom: event.zoom, center: event.center, id: zoomLevel.id+1});
   };
 
-  const LocationPin = ({ text }) => (
-    <div className="pin">
-      <Icon icon={locationIcon} className="pin-icon" />
-      <p className="pin-text">{text}</p>
-    </div>
-  );
-
   return (
     <div className="map">
       <div className="google-map">
@@ -41,11 +40,12 @@ const Map = () => {
           zoom={zoomLevel.zoom}
           center={zoomLevel.center}
         > 
-          <LoadPins />
-          <LocationPin id={zoomLevel.id}
-            lat={location.lat}
-            lng={location.lng}
-          />
+          <LocationPin id={zoomLevel.id} lat={location.lat} lng={location.lng}/>
+          {pickUpMethod.map(function (item) {
+            if (item.location) {
+              return <LocationPin id={item.name + item.date} lat={item.location.lat} lng={item.location.lng} />;
+            }
+          })}
         </GoogleMapReact>
       </div>
     </div>
