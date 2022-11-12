@@ -13,6 +13,13 @@ const Map = ({pickUpMethod, onSel}) => {
       <p className="pin-text">{text}</p>
     </div>
   );
+
+  const LocationPinSelected = ({ text }) => (
+    <div className="pin" style={{color: "red"}}>
+      <Icon icon={locationIcon} className="pin-icon" />
+      <p className="pin-text">{text}</p>
+    </div>
+  );
   
   const location = {
     address: 'Oberhof',
@@ -42,8 +49,13 @@ const Map = ({pickUpMethod, onSel}) => {
         > 
           <LocationPin id={zoomLevel.id} lat={location.lat} lng={location.lng}/>
           {pickUpMethod.map(function (item) {
-            if (item.location) {
+            if (!item.selected && item.location) {
               return <LocationPin id={item.name + item.date} lat={item.location.lat} lng={item.location.lng} />;
+            }
+          })}
+          {pickUpMethod.map(function (item) {
+            if (item.selected && item.location) {
+              return <LocationPinSelected id={item.name + item.date} lat={item.location.lat} lng={item.location.lng} />;
             }
           })}
         </GoogleMapReact>
