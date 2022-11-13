@@ -1,17 +1,9 @@
 import * as React from 'react';
 import './App.css';
-import DeliverySection from './components/delivery/Delivery'
-import SelectionSection from './components/selection/Selection'
-import Geocode from "react-geocode";
-
+import DeliverySection from './components/delivery/Delivery';
+import SelectionSection from './components/selection/Selection';
 import { db } from "./utils/firebase";
 import { onValue, ref, get, child } from "firebase/database";
-
-// set Geocode configurations
-Geocode.setApiKey("AIzaSyAAu4IxCZO863XSZ0sYrYINcpR4C3_lE64");
-Geocode.setLanguage("en");
-Geocode.setRegion("es");
-Geocode.setLocationType("ROOFTOP");
 
 const App = () => {
 
@@ -20,6 +12,7 @@ const App = () => {
 
   React.useEffect((products) => {
     const query = ref(db, "products");
+    console.log(query)
     return onValue(query, (snapshot) => {
       const data = snapshot.val();
       if (snapshot.exists()) {
@@ -31,7 +24,7 @@ const App = () => {
     });
   }, []);
 
-  React.useEffect((pickUpMethod) => {
+  React.useEffect(() => {
     const query = ref(db, "delivery");
     return onValue(query, (snapshot) => {
       const data = snapshot.val();
@@ -43,9 +36,6 @@ const App = () => {
       }
     });
   }, []);
- 
-  console.log('ppppp');
-  console.log(pickUpMethod);
 
   let [progress, setProgress] = React.useState(
     {
@@ -89,9 +79,6 @@ const App = () => {
 
   const handleHomeAdressSelection = ([id, address, coord]) => {
     let newPickUpMethod = [...pickUpMethod];
-    console.log('rrrr');
-    console.log(id);
-    console.log('rrrr');
     newPickUpMethod[findId(newPickUpMethod, id)].address = address;
     newPickUpMethod[findId(newPickUpMethod, id)].location = coord;
     setPickUpMethod([ ...newPickUpMethod ]);

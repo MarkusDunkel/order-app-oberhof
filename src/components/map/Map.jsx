@@ -47,7 +47,6 @@ const Map = ({pickUpMethod, onSel}) => {
           zoom={zoomLevel.zoom}
           center={zoomLevel.center}
         > 
-          <LocationPin id={zoomLevel.id} lat={location.lat} lng={location.lng}/>
           {pickUpMethod.map(function (item) {
             if (!item.selected && item.location) {
               return <LocationPin id={item.name + item.date} lat={item.location.lat} lng={item.location.lng} />;

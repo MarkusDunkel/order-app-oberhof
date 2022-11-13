@@ -24,9 +24,10 @@ const PickUpList = ({item, onSel}) => {
   }
 
   const HomeadressInput = ({item, onSel}) => {
-    console.log(item)
+    let address = "";
+    if (item.address) {address = item.address}
     return (
-      <input type="text" id={item.name + item.date} name={item.name + item.date + "h"} onChange={onSel} />
+      <input type="text" id={item.name + item.date} name={item.name + item.date + "h"} value={address} onChange={onSel} />
     );
   }
 
@@ -36,30 +37,19 @@ const PickUpList = ({item, onSel}) => {
       setHomeAddress([event.target.id, event.target.value])
     };
     const [homeAddress, setHomeAddress] = React.useState([]);
-    const [homeCords, setHomeCords] = React.useState([]);
     React.useEffect(() => {
-        console.log("Hello There!")
-        console.log(homeAddress[1])
-        console.log("Hello There!")
         Geocode.fromAddress(homeAddress[1]).then(
           (response) => {
             const { lat, lng } = response.results[0].geometry.location;
-            console.log({"lat": lat, "lng": lng});
-            console.log('Bin drinnen!')
-            setHomeCords({"lat": lat, "lng": lng});
             onSelHom([homeAddress[0], homeAddress[1], {"lat": lat, "lng": lng}]);
           },
           (error) => {
-            console.log("Not found");
-            console.log("unknown");
+            if (homeAddress.length===2) {
+              onSelHom([homeAddress[0], homeAddress[1], false]);
+            }
           }
         );
-      }, [homeAddress[1]]);
-
-    console.log('hhhhhhhhhhhhhhhhhhhhhhh');
-    console.log(homeAddress);
-    console.log(homeCords);
-    console.log('hhhhhhhhhhhhhhhhhhhhhhh');
+      }, [homeAddress[1]]); 
 
     return (
       <div key={item.name + item.date}>
