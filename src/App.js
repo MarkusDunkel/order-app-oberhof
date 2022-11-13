@@ -2,6 +2,7 @@ import * as React from 'react';
 import './App.css';
 import DeliverySection from './components/delivery/Delivery';
 import SelectionSection from './components/selection/Selection';
+import ContactSection from './components/contact/Contact';
 import { db } from "./utils/firebase";
 import { onValue, ref, get, child } from "firebase/database";
 
@@ -9,6 +10,15 @@ const App = () => {
 
   const [products, setProduct] = React.useState([]);
   const [pickUpMethod, setPickUpMethod] = React.useState([]);
+  
+  const [contact, setContact] = React.useState({
+    "forname": false, 
+    "surname": false,
+    "email": false, 
+    "phone": false
+  });
+
+  console.log(contact);
 
   React.useEffect((products) => {
     const query = ref(db, "products");
@@ -40,7 +50,8 @@ const App = () => {
   let [progress, setProgress] = React.useState(
     {
       "prodSel": false,
-      "continuePickup":false, 
+      "continuePickup": false, 
+      "continueContact": false,
     }
   );
   
@@ -71,7 +82,14 @@ const App = () => {
         setProgress(progress => ({...progress, prodSel: true}));
         break;
       } 
-      setProgress(progress => ({...progress, prodSel: false}));  
+      setProgress(progress => ({...progress, prodSel: false,  continueContact: false}));
+      let newPickUpMethod = [...pickUpMethod];
+      for(let i = 0; i < newPickUpMethod.length; i++) {
+        if (newPickUpMethod[i].selected) {
+          newPickUpMethod[i].selected=false;
+        }
+      }
+      setPickUpMethod([ ...newPickUpMethod ]);
     };
     
     setProduct([ ...newProducts ]);
@@ -86,33 +104,35 @@ const App = () => {
 
   const handlePickUpSelection = (event) => {
     let newPickUpMethod = [...pickUpMethod];
-    if (event.target.id.slice(-1)==="h") {
-      newPickUpMethod[findId(newPickUpMethod, event.target.id.slice(0, -1))].address = 
-        event.target.value;
-      newPickUpMethod[findId(newPickUpMethod, event.target.id.slice(0, -1))].location =
-        event.target.value;
-      
-    } else {
-      if (event.target.checked) {
-        for(let i = 0; i < newPickUpMethod.length; i++){
-          if (newPickUpMethod[i].selected) {
-            newPickUpMethod[i].selected=false;
-          };
-        };
-        newPickUpMethod[findId(newPickUpMethod, event.target.id)].selected = event.target.checked;
-      };
-    };
-
+    if (event.target.checked) {
+      for(let i = 0; i < newPickUpMethod.length; i++){
+        if (newPickUpMethod[i].selected) {
+          newPickUpMethod[i].selected=false;
+        }
+      }
+      newPickUpMethod[findId(newPickUpMethod, event.target.id)].selected = event.target.checked;
+      setProgress(progress => ({...progress, continueContact: true}));
+    }
     setPickUpMethod([ ...newPickUpMethod ]);
-  };
+  }
+
+  const handleContactEnter = (event) => {
+    console.log(event.target.value);
+    console.log(event.target.id);
+    let newContact = contact;
+    newContact[event.target.id] = event.target.value;
+    setContact({ ...newContact });
+  }
   
   return (
     <div>
       <h1>Hier kannst du eine Bestellung aufgeben :)</h1>
 
-      <SelectionSection products={products} onSel={handleProductSelection} />
+      < SelectionSection products={products} onSel={handleProductSelection} />
 
-      <DeliverySection progress={progress} pickUpMethod={pickUpMethod} onSelDel={handlePickUpSelection} onSelHom={handleHomeAdressSelection} /> 
+      < DeliverySection progress={progress} pickUpMethod={pickUpMethod} onSelDel={handlePickUpSelection} onSelHom={handleHomeAdressSelection} /> 
+
+      < ContactSection progress={progress} contact={contact} onEnt={handleContactEnter}/>
     </div>
   );
 }
