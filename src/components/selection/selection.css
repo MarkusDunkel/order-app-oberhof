@@ -1,0 +1,96 @@
+.sel .form {
+  display: block;
+  overflow: hidden;
+  background-color: transparent;
+  height: fit-content;
+}
+  
+.sel .sel-box {
+  display: block;
+  margin: .8rem;
+  float: left;
+  position: relative;
+  border-radius: 2px;
+  height: 6rem;
+  width: 15rem; 
+  font-size: 1.2rem;
+  font-weight: bold;
+  color:rgb(56, 55, 63);
+  box-shadow: 5px 5px 20px rgb(109, 109, 109);
+  background-color: rgb(255, 196, 0);
+}
+
+.sel .sel-box.checked {
+    display: block;
+    float: left;
+    position: relative;
+    font-size: 1.2rem;
+    font-weight: bold;
+    box-shadow: 5px 5px 20px rgb(109, 109, 109);
+    background-color: rgb(29, 196, 59);
+}
+  
+.sel .subsel-box.first {
+    height: 3rem;
+    width: 100%;
+    background-color: transparent;
+  }
+
+.sel .subsel-box.first input {
+    display: none;
+    height: 3rem;
+    width: 100%;
+    background-color: transparent;
+  }
+  
+.sel .subsel-box.second {
+  display: block;
+  position: absolute;
+  top: 2.2rem;
+  right: -2rem;
+  height: 3rem;
+  width: 100%;
+  color: rgb(255, 255, 255);
+  background-color: transparent;
+}
+
+.sel .sel-box:active {
+    height: 7rem;
+    width: 16rem; 
+    margin: .3rem;
+    color: white;
+    background-color: rgb(59, 52, 134);
+}
+
+.sel .sel-box:hover {
+    background-color: rgb(59, 52, 134);
+    color: white;
+  }
+  
+.sel input {
+  display: inline-block;
+  background-color: rgb(255, 255, 255);
+  border-width: 0px;
+  border-radius: 25px;
+  font-size: 2rem;
+  width: 4rem;
+}
+
+.sel input.check-box {
+    display: inline-block;
+    background-color: rgb(255, 255, 255);
+    width: 1.5rem;
+  }
+  
+.sel .label {
+  display: inline-block;
+  width: 140px;
+  text-align: left;
+}
+
+.sel h2 {
+    color: rgb(61, 61, 61);
+    font-size: 1.2rem;
+    font-style: italic; 
+
+}

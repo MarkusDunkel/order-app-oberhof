@@ -1603,6 +1603,11 @@
   "resolved" "https://registry.npmjs.org/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.8.1.tgz"
   "version" "0.8.1"
 
+"@fontsource/merriweather@^4.5.14":
+  "integrity" "sha512-kDMIAokOvE9bYf+CDmEWzV3xtR8cRJlw/BipjhxqD9MIRZfU348cZ8xhHhmPXmxRiEjZLor4xxHXqps7eCvGQg=="
+  "resolved" "https://registry.npmjs.org/@fontsource/merriweather/-/merriweather-4.5.14.tgz"
+  "version" "4.5.14"
+
 "@googlemaps/js-api-loader@^1.7.0":
   "integrity" "sha512-6iIb+qpGgQpgIHmIFO44WhE1rDUxPVHuezNFL30wRJnkvhwFm94tD291UvNg9L05hLDSoL16jd0lbqqmdy4C5g=="
   "resolved" "https://registry.npmjs.org/@googlemaps/js-api-loader/-/js-api-loader-1.14.3.tgz"
