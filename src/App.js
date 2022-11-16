@@ -11,7 +11,7 @@ import "@fontsource/merriweather";
 import logo from './logo.png';
 
 const App = () => {
-
+  
   const [products, setProduct] = React.useState([]);
   const [pickUpMethod, setPickUpMethod] = React.useState([]);
   
@@ -188,7 +188,7 @@ const App = () => {
       <img  src={logo} style={{width:"10rem"}} alt="fireSpot"/>
 
       <h1>Hier kannst du eine Bestellung aufgeben!</h1>
-
+      
       < SelectionSection products={products} onSel={handleProductSelection} />
 
       < DeliverySection progress={progress} pickUpMethod={pickUpMethod} onSelDel={handlePickUpSelection} onSelHom={handleHomeAdressSelection} /> 

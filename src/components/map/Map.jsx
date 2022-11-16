@@ -5,6 +5,8 @@ import './map.css'
 import { Icon } from '@iconify/react'
 import locationIcon from '@iconify/icons-mdi/map-marker'
 
+import mapStyles from "./mapStyles"
+
 const Map = ({pickUpMethod, onSel}) => {
 
   const LocationPin = ({ text }) => (
@@ -44,6 +46,7 @@ const Map = ({pickUpMethod, onSel}) => {
           bootstrapURLKeys={{ key: 'AIzaSyDmT9e5YEMfy2CyB2uHjUOGBgnr4oRSsm8' }}
           defaultCenter={location}
           onChange={handleZoomState}
+          options={{styles: mapStyles.first}}
           zoom={zoomLevel.zoom}
           center={zoomLevel.center}
         > 

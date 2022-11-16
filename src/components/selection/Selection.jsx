@@ -1,5 +1,10 @@
 import React from 'react'
 import './selection.css'
+import { ReactComponent as Click} from './click.svg';
+
+const MenuIcon = ({fill, stroke}) =>(
+  <svg src="pic" fill={fill} stroke={stroke}></svg>
+)
 
 const WithQuant = ({item, onSel}) => {
     return (
@@ -21,6 +26,9 @@ const WithoutQuant = ({item, onSel}) => {
         <div className="subsel-box first">
           <input className="check-box" id={item.name + "a"} type="checkbox" checked={item.selected} onChange={onSel} />
           <label htmlFor={item.name + "a"}>{item.name}</label>
+        </div>
+        <div className="subsel-box second">
+          <Click width= "100px" height="100px" className='click-svg' />
         </div>
       </div>)
   }

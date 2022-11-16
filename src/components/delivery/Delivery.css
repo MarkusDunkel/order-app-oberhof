@@ -1,40 +1,94 @@
+.del h2 {
+  color: rgb(61, 61, 61);
+  font-size: 1.2rem;
+  font-style: italic; 
+
+}
+
+.del .item-boxes {
+  position: relative;
+}
+
+.del .item-boxes span {
+  display: block;
+  position:absolute;
+  margin-top: .4rem;
+  height: 3rem;
+  width: 2rem;
+  background-color: rgb(255, 196, 0)
+}
+
+.del .item-boxes label {
+  display: block;
+  position:absolute;
+  margin-top: .4rem;
+  left: 2rem;
+  float: left;
+  padding-top: .2rem;
+  background-color: rgb(255, 230, 0);
+  width: 16rem;
+  height: 3rem;
+}
+
+.del .item-boxes:hover span {
+  background-color: rgb(59, 52, 134);
+}
+
+.del .item-boxes:hover label {
+  background-color: rgb(35, 138, 227);
+}
+
+.del .item-boxes:active span {
+  background-color: rgb(59, 52, 134);
+  margin-top: .25rem;
+  width: 2.2rem;
+  height: 3.3rem;
+}
+
+.del .item-boxes:active label {
+  background-color: rgb(35, 138, 227);
+  padding-top: .3rem;
+  margin-top: .25rem;
+  width: 17.6rem;
+  height: 3.3rem;
+}
+
+.del .item-boxes:focus-within span {
+  background-color: rgb(0, 151, 28);
+}
+
+.del .item-boxes:focus-within label {
+  background-color: rgb(29, 196, 59);
+}
+
+.del .center-checkbox input {
+  opacity: 0;
+}
+
 .PickBoxOuter {
     display:block;
     overflow: hidden;
     width: 100%;
     block-size: fit-content;
-    background-color: rgb(202, 205, 50);
+    background-color: transparent;
   }
   
 .PickBoxMiddle {
   float: left;
-  width: 22rem;
+  width: 23rem;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
   height: max-content;
-  background-color:rgb(130, 193, 134);
+  background-color:rgba(255, 255, 255, 0.539);;
+  border:1px solid rgb(133, 133, 133);
+  border-radius: 5px;
 }
 
 .form-delivery {
-    background-color: rgb(204, 227, 141);
+    background-color: transparent;
   }
 
-.form-delivery label {
-  display: flex;
-  float: left; 
-  align-items: center;
-  background-color: aliceblue;
-  width: 80%;
-  height: 3rem;
-}
 
 .form-delivery input {
 }
-
-.center-checkbox {
-  display: flex;
-  float: left; 
-  align-items: center;
-  height: 3rem;
-  width:10%;
-  background-color: rgb(232, 163, 239); 
-}
-  

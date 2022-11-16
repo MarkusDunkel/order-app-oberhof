@@ -12,7 +12,7 @@ Geocode.setLocationType("ROOFTOP");
 const PickUpList = ({item, onSel}) => {
     return (
       <div key={item.name + item.date}>
-        <div>
+        <div className="item-boxes">
           <span className="center-checkbox">
             <input id={item.name + item.date} type="checkbox" checked={item.selected} onChange={onSel} />
           </span>
@@ -110,11 +110,11 @@ const PickUpList = ({item, onSel}) => {
 const BlendInPickUpList = ({progress, pickUpMethod, onSelDel, onSelHom}) => {
     if (progress.prodSel) {
       return (
-        <fieldset>
-          <legend> Wie möchtest du deine Bestellung erhalten? </legend>
+        <div className="del">
+          <h2> Wie möchtest du deine Bestellung erhalten? </h2>
           <SelPickupKind pickUpMethod={pickUpMethod} onSelDel={onSelDel} onSelHom={onSelHom} />
           <MapSection pickUpMethod={pickUpMethod} onSelDel={onSelDel}/>
-        </fieldset>
+        </div>
       );
     }
   }
