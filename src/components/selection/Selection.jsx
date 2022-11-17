@@ -14,8 +14,10 @@ const WithQuant = ({item, onSel}) => {
           <label htmlFor={item.name + "a"}>{item.name}</label>
         </div>
         <div className="subsel-box second">
+          <div style={{height:"4.6rem", width: "100%", float:"left"}}>{item.quantity}</div>
           <input id={item.name + "b"} type="text" onChange={onSel} />
-          <label htmlFor={item.name + "b"}>{item.quantity}</label>
+          <div style={{display:"inline-block"}}> Stk.</div>
+          <div style={{float:"right", display: "inline"}}>{item.price} €/Stk.</div>
         </div>
       </div>)
   }

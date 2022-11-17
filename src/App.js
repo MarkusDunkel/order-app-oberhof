@@ -64,11 +64,14 @@ const App = () => {
       if (snapshot.exists()) {
        Object.values(data).map((delivery) => {
         setPickUpMethod((pickUpMethod) => [...pickUpMethod, 
-          {...delivery, "selected": false, "id": delivery.name + delivery.date}]);
+          {...delivery, "selected": false, "id": delivery.name + delivery.date, 
+            "address": delivery.street+" "+delivery.number+", "+delivery.code+" "+delivery.city}]);
         });
       }
     });
   }, []);
+
+  console.log(pickUpMethod);
 
   let [progress, setProgress] = React.useState(
     {

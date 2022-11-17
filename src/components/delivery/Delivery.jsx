@@ -11,12 +11,12 @@ Geocode.setLocationType("ROOFTOP");
 
 const PickUpList = ({item, onSel}) => {
     return (
-      <div key={item.name + item.date}>
+      <div key={item.address + item.date}>
         <div className="item-boxes">
           <span className="center-checkbox">
-            <input id={item.name + item.date} type="checkbox" checked={item.selected} onChange={onSel} />
+            <input id={item.address + item.date} type="checkbox" checked={item.selected} onChange={onSel} />
           </span>
-          <label htmlFor={item.name + item.date}>{item.date}<br />{item.name}</label>
+          <label htmlFor={item.address + item.date}>{item.date}<br />{item.street+" "+item.number}<br />{item.code+", "+item.city}</label>
           <br /><br />
         </div>
       </div> 
