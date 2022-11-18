@@ -51,7 +51,7 @@ const App = () => {
       if (snapshot.exists()) {
        Object.values(data).map((product) => {
         setProduct((products) => [...products, 
-          {...product, "selected": false, "quantVal": 0, "id": product.name}]);
+          {...product, "selected": false, "quantVal": false, "id": product.name}]);
         });
       }
     });
@@ -63,14 +63,23 @@ const App = () => {
       const data = snapshot.val();
       if (snapshot.exists()) {
        Object.values(data).map((delivery) => {
+        let address;
+        let id;
+        if (delivery.kind=="Zustellung") {
+          address = false;
+          id = delivery.city + delivery.date;
+        } else {
+          address = delivery.street+" "+delivery.number+", "+delivery.code+" "+delivery.city;
+          id = address + delivery.date;
+        }
         setPickUpMethod((pickUpMethod) => [...pickUpMethod, 
-          {...delivery, "selected": false, "id": delivery.name + delivery.date, 
-            "address": delivery.street+" "+delivery.number+", "+delivery.code+" "+delivery.city}]);
+          {...delivery, "selected": false, "address": address, "id": id}
+        ]) 
         });
       }
     });
   }, []);
-
+  
   console.log(pickUpMethod);
 
   let [progress, setProgress] = React.useState(
@@ -137,6 +146,7 @@ const App = () => {
           newPickUpMethod[i].selected=false;
         }
       }
+      console.log(event.target.id);
       newPickUpMethod[findId(newPickUpMethod, event.target.id)].selected = event.target.checked;
       setProgress(progress => ({...progress, continueContact: true}));
     }

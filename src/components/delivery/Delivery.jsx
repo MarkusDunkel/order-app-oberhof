@@ -10,13 +10,21 @@ Geocode.setRegion("es");
 Geocode.setLocationType("ROOFTOP");
 
 const PickUpList = ({item, onSel}) => {
+    let genCSSClass = "";
+    if (item.selected) {genCSSClass = "selected"}
+    let secRowLabel = item.address;
+    let genId = item.address;
+    if (item.kind=="Zustellung") {
+      secRowLabel = item.city+", "+item.time;
+      genId = item.city;
+    }
     return (
-      <div key={item.address + item.date}>
-        <div className="item-boxes">
-          <span className="center-checkbox">
-            <input id={item.address + item.date} type="checkbox" checked={item.selected} onChange={onSel} />
-          </span>
-          <label htmlFor={item.address + item.date}>{item.date}<br />{item.street+" "+item.number}<br />{item.code+", "+item.city}</label>
+      <div key={genId + item.date}>
+        <div className={"item-boxes "+genCSSClass}>
+          <div className="center-checkbox">
+            <input id={genId + item.date} style={{opacity:"0"}} type="checkbox" checked={item.selected} onChange={onSel} />
+          </div>
+          <label htmlFor={genId + item.date}><div style={{display: "inline-block", fontWeight:"bold", paddingBottom: ".2rem"}}>{item.date}</div><br />{secRowLabel}</label>
           <br /><br />
         </div>
       </div> 
@@ -24,19 +32,50 @@ const PickUpList = ({item, onSel}) => {
   }
 
   const HomeadressInput = ({item, onSel}) => {
-    let address = "";
-    if (item.address) {address = item.address}
+    let street = "Straße";
+    let number = "Nr.";
+    let code = "Plz.";
+    let city = item.city;
+    if (item.street) {street = item.street}
+    if (item.number) {number = item.number}
+    if (item.code) {code = item.code}
     return (
-      <input type="text" id={item.name + item.date} name={item.name + item.date + "h"} value={address} onChange={onSel} />
+      <div>
+        <input className="address-input" style={{width:"12rem"}} type="text" id={item.city + item.date + "a"} name={item.city + item.date + "a"} value={street} onChange={onSel} />
+        <input className="address-input" style={{width:"2rem"}} type="text" id={item.city + item.date + "b"} name={item.city + item.date + "b"} value={number} onChange={onSel} /><br />
+        <input className="address-input" style={{width:"4rem"}} type="text" id={item.city + item.date + "c"} name={item.city + item.date + "c"} value={code} onChange={onSel} />
+        <input className="address-input" style={{width:"9rem"}} type="text" id={item.city + item.date + "d"} name={item.city + item.date + "d"} value={city} onChange={onSel} />
+      </div>
     );
   }
 
   const PickUpListHome = ({item, onSelDel, onSelHom}) => {
-    
+
+    const secRowLabel = item.city+", "+item.time;
+    let genCSSClass = "";
+    if (item.selected) {genCSSClass = "selected home"}
+
     const handleHomeAddress = (event) => {
-      setHomeAddress([event.target.id, event.target.value])
+      let address = homeStreet+" "+homeNumber+", "+homeCode+item.city;
+      setHomeAddress([event.target.id.slice(0, -1), address])
     };
+
     const [homeAddress, setHomeAddress] = React.useState([]);
+    const [homeStreet, setHomeStreet] = React.useState(false);
+    const [homeNumber, setHomeNumber] = React.useState(false);
+    const [homeCode, setHomeCode] = React.useState(false);
+
+    const buildHomeAddress = (event) => {
+      if (event.target.id.slice(-1)==="a") {setHomeStreet(event.target.value)}
+      if (event.target.id.slice(-1)==="b") {setHomeNumber(event.target.value)}
+      if (event.target.id.slice(-1)==="c") {setHomeCode(event.target.value)}
+
+      if (homeStreet && homeNumber && homeCode){handleHomeAddress(event)}
+    };
+
+    console.log("Haddress");
+    console.log(homeAddress);
+    console.log("Haddress");
     React.useEffect(() => {
         Geocode.fromAddress(homeAddress[1]).then(
           (response) => {
@@ -53,14 +92,15 @@ const PickUpList = ({item, onSel}) => {
 
     return (
       <div key={item.name + item.date}>
-        <div>
-          <span className="center-checkbox">
+        <div className={"item-boxes "+genCSSClass}>
+          <div className="center-checkbox">
             <input id={item.name + item.date} type="checkbox" checked={item.selected} onChange={onSelDel} />
-          </span>
-          <label htmlFor={item.name + item.date}>{item.date}<br />{item.name}</label>
-          <br /><br />
-          Adresse: 
-          < HomeadressInput item={item} onSel={handleHomeAddress} />
+          </div>
+          <label htmlFor={item.address + item.date}><div style={{display: "inline-block", fontWeight:"bold", paddingBottom: ".2rem"}}>{item.date}</div><br />{secRowLabel}</label>
+          <div className="address-input" >
+            Adresse: 
+            < HomeadressInput item={item} onSel={buildHomeAddress} />
+          </div>
         </div>
       </div> 
     );
