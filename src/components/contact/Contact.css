@@ -1,14 +1,37 @@
-.form-contact {
-  background-color: rgb(204, 227, 141);
-  overflow: hidden;
+.con h2 {
+  color: rgb(101, 68, 21);
+  font-size: 1.2rem;
+  font-style: italic; 
+  padding: 3rem 0 1rem 0;
 }
 
-.subform-contact {
+.con .subform-contact {
   float: left;
-  background-color: rgb(166, 194, 229);
+  background-color: transparent;
   width: 15rem;
+  padding: .3rem .3rem .9rem .3rem;
+  border: 0px red solid;
 }
 
-.text-contact {
+.con .subform-contact label {
+  font-size: .9rem;
+  padding: 0 0 .3rem .3rem;
+  color: rgb(123, 123, 123);;
+}
+
+.con .subform-contact input {
+  padding: .2rem .2rem .2rem .2rem;
+  width: 12rem;
+  border-radius: 1px;
+  border: 1px black solid;
+}
+
+.con .text-contact {
   display: block;
+  font-size: .8rem;
+}
+
+.con .form-contact {
+  background-color: transparent;
+  overflow: hidden;
 }

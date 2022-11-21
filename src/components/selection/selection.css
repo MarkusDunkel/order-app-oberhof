@@ -20,7 +20,7 @@
 }
 
 .sel .sel-box.checked .subsel-box.first {
-    background-color: rgb(29, 196, 59);
+    background-color: rgb(117, 175, 108);
 }
   
 .sel .subsel-box.first {
@@ -29,7 +29,7 @@
     width: 100%;
     font-size: 1.2rem;
     font-weight: bold;
-    background-color: rgb(255, 230, 0);
+    background-color: rgb(200,121,125);
   }
 
 .sel .subsel-box.first label {
@@ -60,17 +60,7 @@
   color: rgb(0, 0, 0);
   padding: .3rem;
 }
-/*
-.sel .sel-box:active .subsel-box.first {
-    color: white;
-    background-color: rgb(59, 52, 134);
-}
 
-.sel .sel-box:hover .subsel-box.first {
-    background-color: rgb(59, 52, 134);
-    color: white;
-  }
- */ 
 .sel input {
   display: inline;
   float: left;
@@ -85,14 +75,14 @@
   height: 1.7rem;
 }
 
-.sel h2 {
-    color: rgb(61, 61, 61);
-    font-size: 1.2rem;
-    font-style: italic; 
-
-}
-
 .sel .click-svg g {
   stroke-opacity: 1;
   stroke-width: 1px;
+}
+
+.sel h2 {
+  color: rgb(101, 68, 21);
+  font-size: 1.2rem;
+  font-style: italic; 
+  padding: 3rem 0 1rem 0;
 }

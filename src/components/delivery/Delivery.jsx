@@ -12,10 +12,12 @@ Geocode.setLocationType("ROOFTOP");
 const PickUpList = ({item, onSel}) => {
     let genCSSClass = "";
     if (item.selected) {genCSSClass = "selected"}
-    let secRowLabel = item.address;
+    let secRowLabel = item.street + " " + item.number + ",";
+    let thirdRowLabel = item.code + " " + item.city;
     let genId = item.address;
     if (item.kind=="Zustellung") {
-      secRowLabel = item.city+", "+item.time;
+      secRowLabel = item.city+" "+item.time;
+      thirdRowLabel = "";
       genId = item.city;
     }
     return (
@@ -24,7 +26,7 @@ const PickUpList = ({item, onSel}) => {
           <div className="center-checkbox">
             <input id={genId + item.date} style={{opacity:"0"}} type="checkbox" checked={item.selected} onChange={onSel} />
           </div>
-          <label htmlFor={genId + item.date}><div style={{display: "inline-block", fontWeight:"bold", paddingBottom: ".2rem"}}>{item.date}</div><br />{secRowLabel}</label>
+          <label htmlFor={genId + item.date}><div style={{display: "inline-block", fontWeight:"bold", paddingBottom: ".2rem"}}>{item.date}</div><br />{secRowLabel}<br />{thirdRowLabel}</label>
           <br /><br />
         </div>
       </div> 
@@ -32,64 +34,72 @@ const PickUpList = ({item, onSel}) => {
   }
 
   const HomeadressInput = ({item, onSel}) => {
-    let street = "Straße";
-    let number = "Nr.";
-    let code = "Plz.";
+    let street = "";
+    let number = "";
+    let code = "";
     let city = item.city;
     if (item.street) {street = item.street}
     if (item.number) {number = item.number}
     if (item.code) {code = item.code}
+    
     return (
       <div>
-        <input className="address-input" style={{width:"12rem"}} type="text" id={item.city + item.date + "a"} name={item.city + item.date + "a"} value={street} onChange={onSel} />
-        <input className="address-input" style={{width:"2rem"}} type="text" id={item.city + item.date + "b"} name={item.city + item.date + "b"} value={number} onChange={onSel} /><br />
-        <input className="address-input" style={{width:"4rem"}} type="text" id={item.city + item.date + "c"} name={item.city + item.date + "c"} value={code} onChange={onSel} />
-        <input className="address-input" style={{width:"9rem"}} type="text" id={item.city + item.date + "d"} name={item.city + item.date + "d"} value={city} onChange={onSel} />
+        <input className="address-input" style={{width:"12rem"}} type="text" id={item.city + item.date + "a"} name={item.city + item.date + "a"} value={street} placeholder="Straße" onChange={onSel} />
+        <input className="address-input" style={{width:"2rem"}} type="text" id={item.city + item.date + "b"} name={item.city + item.date + "b"} value={number} placeholder="Nr." onChange={onSel} /><br />
+        <input className="address-input" style={{width:"4rem"}} type="text" id={item.city + item.date + "c"} name={item.city + item.date + "c"} value={code} placeholder="Plz." onChange={onSel} />
+        <input className="address-input" style={{width:"9rem"}} type="text" id={item.city + item.date + "d"} name={item.city + item.date + "d"} value={city} placeholder="Ort" onChange={onSel} />
       </div>
     );
   }
 
-  const PickUpListHome = ({item, onSelDel, onSelHom}) => {
+  const PickUpListHome = ({item, onSelDel, onSelHom, progress, setProgress}) => {
 
     const secRowLabel = item.city+", "+item.time;
     let genCSSClass = "";
-    if (item.selected) {genCSSClass = "selected home"}
 
     const handleHomeAddress = (event) => {
-      let address = homeStreet+" "+homeNumber+", "+homeCode+item.city;
-      setHomeAddress([event.target.id.slice(0, -1), address])
+      let address = homeForm.street+" "+homeForm.number+", "+homeForm.code+homeForm.city;
+      setHomeAddress(address)
     };
 
-    const [homeAddress, setHomeAddress] = React.useState([]);
-    const [homeStreet, setHomeStreet] = React.useState(false);
-    const [homeNumber, setHomeNumber] = React.useState(false);
-    const [homeCode, setHomeCode] = React.useState(false);
-
+    const [homeAddress, setHomeAddress] = React.useState(false);
+    const [homeForm, setHomeForm] = React.useState({"id": item.id, "street": item.street, "number": item.number, "code": item.code, "city": item.city});
+    if (item.selected && item.address && homeForm.street && homeForm.number && homeForm.code) {
+      genCSSClass = "selectedHome plusAddress"
+    } else if (item.selected) {
+      genCSSClass = "selectedHome"
+    }
+  
     const buildHomeAddress = (event) => {
-      if (event.target.id.slice(-1)==="a") {setHomeStreet(event.target.value)}
-      if (event.target.id.slice(-1)==="b") {setHomeNumber(event.target.value)}
-      if (event.target.id.slice(-1)==="c") {setHomeCode(event.target.value)}
+      let newHomeForm = {...homeForm};
+      if (event.target.id.slice(-1)==="a") {newHomeForm.street = event.target.value}
+      if (event.target.id.slice(-1)==="b") {newHomeForm.number = event.target.value}
+      if (event.target.id.slice(-1)==="c") {newHomeForm.code = event.target.value}
 
-      if (homeStreet && homeNumber && homeCode){handleHomeAddress(event)}
+      setHomeForm({...newHomeForm});
+
+      if (homeForm.street && homeForm.number && homeForm.code || 
+          homeForm.street && homeForm.number && event.target.id.slice(-1)==="c" && event.target.value.length > 0 ||
+          homeForm.street && homeForm.code && event.target.id.slice(-1)==="b" && event.target.value.length > 0 ||
+          homeForm.number && homeForm.code && event.target.id.slice(-1)==="a" && event.target.value.length > 0
+          ) {
+        handleHomeAddress(event)
+      }
     };
 
-    console.log("Haddress");
-    console.log(homeAddress);
-    console.log("Haddress");
     React.useEffect(() => {
-        Geocode.fromAddress(homeAddress[1]).then(
+        Geocode.fromAddress(homeAddress).then(
           (response) => {
             const { lat, lng } = response.results[0].geometry.location;
-            onSelHom([homeAddress[0], homeAddress[1], {"lat": lat, "lng": lng}]);
+            console.log("Address coord computed");
+            onSelHom([homeForm.id, homeAddress, {"lat": lat, "lng": lng}, homeForm.street, homeForm.number, homeForm.code]);
           },
           (error) => {
-            if (homeAddress.length===2) {
-              onSelHom([homeAddress[0], homeAddress[1], false]);
-            }
+            console.log("didn't work");
           }
         );
-      }, [homeAddress[1]]); 
-
+    }, [homeAddress]); 
+    
     return (
       <div key={item.name + item.date}>
         <div className={"item-boxes "+genCSSClass}>
@@ -98,29 +108,32 @@ const PickUpList = ({item, onSel}) => {
           </div>
           <label htmlFor={item.address + item.date}><div style={{display: "inline-block", fontWeight:"bold", paddingBottom: ".2rem"}}>{item.date}</div><br />{secRowLabel}</label>
           <div className="address-input" >
-            Adresse: 
-            < HomeadressInput item={item} onSel={buildHomeAddress} />
+            < HomeadressInput item={homeForm} onSel={buildHomeAddress} />
           </div>
         </div>
       </div> 
     );
   }
   
-  const SelPickupKind = ({pickUpMethod, onSelDel, onSelHom}) => {
+  const SelPickupKind = ({pickUpMethod, onSelDel, onSelHom, progress, setProgress}) => {
     return (
       <div className="PickBoxOuter">
         <div className="PickBoxMiddle">
-          Abholung am Hof
-          <br/>
-          Ruf uns an unter 06764807812
+          <div className="text">
+            Abholung am Hof
+            <br/>
+            Ruf uns an unter 06764807812
+          </div>
           <form className="form-delivery">
             <PickUpList item={pickUpMethod[0]} onSel={onSelDel} />
           </form>
         </div>
         <div className="PickBoxMiddle">
-          Abholung beim nächsten Markt
-          <br/>
-          Termine:
+          <div className="text">
+            Abholung beim nächsten Markt
+            <br/>
+            Termine:
+          </div>
           <form className="form-delivery">
             {pickUpMethod.map(function (item) {
               if (item.kind==='Abholung am Markt') {
@@ -130,15 +143,17 @@ const PickUpList = ({item, onSel}) => {
           </form>
         </div>
         <div className="PickBoxMiddle">
-          Lieferung zu dir nach Hause
-          <br/>
-          Termine:
+          <div className="text">
+            Lieferung zu dir nach Hause
+            <br/>
+            Termine:
+          </div>
           <form className="form-delivery">
             {pickUpMethod.map(function (item) {
               if (item.kind==='Zustellung' && !item.selected) {
                 return <PickUpList item={item} onSel={onSelDel} />
               } else if (item.kind==='Zustellung' && item.selected) {
-                return <PickUpListHome item={item} onSelDel={onSelDel} onSelHom={onSelHom} />
+                return <PickUpListHome item={item} onSelDel={onSelDel} onSelHom={onSelHom} progess={progress} setProgress={setProgress} />
               }
             })}
           </form>
@@ -147,12 +162,12 @@ const PickUpList = ({item, onSel}) => {
     );
   }
   
-const BlendInPickUpList = ({progress, pickUpMethod, onSelDel, onSelHom}) => {
+const BlendInPickUpList = ({setProgress, progress, pickUpMethod, onSelDel, onSelHom}) => {
     if (progress.prodSel) {
       return (
         <div className="del">
           <h2> Wie möchtest du deine Bestellung erhalten? </h2>
-          <SelPickupKind pickUpMethod={pickUpMethod} onSelDel={onSelDel} onSelHom={onSelHom} />
+          <SelPickupKind pickUpMethod={pickUpMethod} onSelDel={onSelDel} onSelHom={onSelHom} progress={progress} setProgress={setProgress} />
           <MapSection pickUpMethod={pickUpMethod} onSelDel={onSelDel}/>
         </div>
       );

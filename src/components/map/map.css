@@ -8,14 +8,15 @@
   }
   
 .del .map .google-map {
-    width: 100%;
+    width: calc(100% + .5rem);
     height: 40vh;
+    margin-left: -.5rem;
   }
   
 .del .map .pin {
     display: block;
     position: relative;
-    color: blue;
+    color: rgb(64, 44, 125);
     width: 3rem;
     height: 3rem;
   }

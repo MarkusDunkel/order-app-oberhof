@@ -8,8 +8,8 @@ const ContactForm = ({progress, contact, onEnt}) => {
       if (!value) {con[key]=""}
     }
     return (
-      <fieldset>
-        <legend> Nenne uns deine Kontakdaten </legend>
+      <div className="con">
+        <h2> Nenne uns deine Kontakdaten </h2>
         <form className="form-contact">
           <div className="subform-contact">
             <label for="forname">Vorname:</label><br />
@@ -29,9 +29,9 @@ const ContactForm = ({progress, contact, onEnt}) => {
           </div>
         </form> 
         <div className="text-contact">
-          Deine Daten werden mit hohen Sicherheitsstandards gespeichert. Die Angabe der Telefonnummer ist nur verpflichtend, wenn zu dir nach Hause geliefert wird. 30 Tage nach dem Datum der Zustellung werden die Kontaktdaten automatisch gelöscht. 
+          Diese Webapplikation befindet sich in Produktion. Deine Daten werden womöglich nicht sicher gespeichert. Bitte schicke nur beispielhafte Daten ab.
         </div>
-      </fieldset>
+      </div>
     );
   }
 }

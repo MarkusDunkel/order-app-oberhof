@@ -1,9 +1,12 @@
 import * as React from 'react';
+import './submit.css'
 
 const Submit = ({progress, onSub}) => {
     if (progress.continueSubmit) {
       return (
-        <button onClick={onSub}>Submit</button>
+        <div className="sub">
+          <button onClick={onSub}>Submit</button>
+        </div>
       );
     }
   }

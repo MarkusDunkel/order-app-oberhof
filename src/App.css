@@ -16,4 +16,20 @@ h1 {
   color: rgb(101, 68, 21);
 };
 
+div.body-container {
+  height: 100vh;
+}
 
+div.hcenter {
+  background-color:transparent;
+  width: 1020px;
+  margin: 0 auto;
+  padding: 1rem 0 1rem .5rem;
+  height: fit-content;
+}
+
+@media (max-width: 1020px) {
+  div.hcenter {
+    width: 100%
+  }
+}

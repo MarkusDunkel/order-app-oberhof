@@ -17,7 +17,7 @@ const Map = ({pickUpMethod, onSel}) => {
   );
 
   const LocationPinSelected = ({ text }) => (
-    <div className="pin" style={{color: "red"}}>
+    <div className="pin" style={{color: "rgb(214,26,19)"}}>
       <Icon icon={locationIcon} className="pin-icon" />
       <p className="pin-text">{text}</p>
     </div>

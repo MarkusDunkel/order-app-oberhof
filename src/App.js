@@ -79,8 +79,6 @@ const App = () => {
       }
     });
   }, []);
-  
-  console.log(pickUpMethod);
 
   let [progress, setProgress] = React.useState(
     {
@@ -118,7 +116,7 @@ const App = () => {
         setProgress(progress => ({...progress, prodSel: true}));
         break;
       } 
-      setProgress(progress => ({...progress, prodSel: false,  continueContact: false}));
+      setProgress(progress => ({...progress, prodSel: false,  continueContact: false, continueSubmit: false}));
       let newPickUpMethod = [...pickUpMethod];
       for(let i = 0; i < newPickUpMethod.length; i++) {
         if (newPickUpMethod[i].selected) {
@@ -131,10 +129,14 @@ const App = () => {
     setProduct([ ...newProducts ]);
   };
 
-  const handleHomeAdressSelection = ([id, address, coord]) => {
+  const handleHomeAdressSelection = ([id, address, coord, street, number, code]) => {
     let newPickUpMethod = [...pickUpMethod];
+   
     newPickUpMethod[findId(newPickUpMethod, id)].address = address;
     newPickUpMethod[findId(newPickUpMethod, id)].location = coord;
+    newPickUpMethod[findId(newPickUpMethod, id)].street = street;
+    newPickUpMethod[findId(newPickUpMethod, id)].number = number;
+    newPickUpMethod[findId(newPickUpMethod, id)].code = code;
     setPickUpMethod([ ...newPickUpMethod ]);
   };
 
@@ -146,7 +148,6 @@ const App = () => {
           newPickUpMethod[i].selected=false;
         }
       }
-      console.log(event.target.id);
       newPickUpMethod[findId(newPickUpMethod, event.target.id)].selected = event.target.checked;
       setProgress(progress => ({...progress, continueContact: true}));
     }
@@ -197,18 +198,23 @@ const App = () => {
   }
   
   return (
-    <div>
-      <img  src={logo} style={{width:"10rem"}} alt="fireSpot"/>
-
-      <h1>Hier kannst du eine Bestellung aufgeben!</h1>
+    <div className="body-container">
+      <div className="hcenter">
+        <div style={{display: "block", width:"10rem", margin: "0 auto"}} >
+          <img  src={logo} style={{width:"10rem"}} alt="fireSpot" />
+        </div>
+        <div style={{display: "inline", textAlign: "center"}} >
+          <h1>Hier kannst du eine Bestellung aufgeben!</h1>
+        </div>
       
-      < SelectionSection products={products} onSel={handleProductSelection} />
+        < SelectionSection products={products} onSel={handleProductSelection} />
 
-      < DeliverySection progress={progress} pickUpMethod={pickUpMethod} onSelDel={handlePickUpSelection} onSelHom={handleHomeAdressSelection} /> 
+        < DeliverySection setProgress={setProgress} progress={progress} pickUpMethod={pickUpMethod} onSelDel={handlePickUpSelection} onSelHom={handleHomeAdressSelection} /> 
 
-      < ContactSection progress={progress} contact={contact} onEnt={handleContactEnter} />
+        < ContactSection progress={progress} contact={contact} onEnt={handleContactEnter} />
 
-      < SubmitData progress={progress} onSub={handleSubmit} />
+        < SubmitData progress={progress} onSub={handleSubmit} />
+      </div>
     </div>
   );
 }

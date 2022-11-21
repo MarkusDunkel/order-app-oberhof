@@ -8,25 +8,33 @@
 .del .item-boxes {
   display: block;
   background-color: transparent;
-  border: 1px solid rgb(172, 82, 82);
+  border: 0px solid rgb(186, 156, 156);
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 .2rem;
   height: 4.9rem;
 }
 
-.del .item-boxes.selected.home {
-  height: 7rem;
+.del .item-boxes.selectedHome {
+  height: 8.6rem;
 }
 
-.del .item-boxes.selected.home .address-input div {
-  background-color: aquamarine;
+.del .item-boxes.selectedHome .address-input div {
+  background-color: transparent;
   padding: .3rem;
   padding-left: 1.5rem;
 }
 
-.del .item-boxes.selected.home .address-input input {
+.del .item-boxes.selectedHome .address-input input {
   display: inline;
+  padding: .1rem;
+  margin:.1rem;
+  border: 1px solid rgb(175, 175, 175);
+  border-radius: 2px;
   background-color: rgb(255, 255, 255);
+}
+
+.del .item-boxes.selectedHome.plusAddress .center-checkbox {
+  background-color: rgb(29, 196, 59);
 }
 
 .del .item-boxes .center-checkbox {
@@ -36,7 +44,7 @@
   margin-left: .4rem;
   width: .7rem;
   height: 4.4rem;
-  background-color: rgb(255, 230, 0);
+  background-color: rgb(200,121,125);
   border-top:1px solid rgb(175, 175, 175);
   border-left:1px solid rgb(175, 175, 175);
   border-bottom:1px solid rgb(175, 175, 175);
@@ -45,7 +53,11 @@
 }
 
 .del .item-boxes.selected .center-checkbox {
-  background-color: rgb(29, 196, 59);
+  background-color: rgb(117, 175, 108);
+}
+
+.del .item-boxes .center-checkbox input {
+  opacity: 0;
 }
 
 .del .item-boxes label {
@@ -55,7 +67,7 @@
   padding: .1rem;
   padding-left: .7rem;
   height: 4.4rem;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(249, 249, 249);
   width: 16rem;
   border-top:1px solid rgb(175, 175, 175);
   border-right:1px solid rgb(175, 175, 175);
@@ -64,26 +76,34 @@
   border-bottom-right-radius: 5px;
 }
 
-.PickBoxOuter {
-    display:block;
-    overflow: hidden;
-    width: 100%;
-    block-size: fit-content;
-    background-color: transparent;
-  }
+.del .PickBoxOuter {
+  display:block;
+  overflow: hidden;
+  width: 100%;
+  block-size: fit-content;
+  background-color: transparent;
+}
   
-.PickBoxMiddle {
+.del .PickBoxMiddle {
   float: left;
-  width: 22rem;
+  width: 20rem;
   margin-left: 1rem;
   margin-bottom: 1rem;
   padding: .3rem;
   height: max-content;
   background-color:transparent;
-  border:1px solid rgb(255, 255, 255);
+  border:0px solid rgb(255, 255, 255);
   border-radius: 5px;
 }
 
-.form-delivery {
-    background-color: transparent;
-  }
+.del .PickBoxOuter .PickBoxMiddle div.text {
+  color:rgb(114, 114, 114);
+  line-height:140%;
+}
+
+.del h2 {
+  color: rgb(101, 68, 21);
+  font-size: 1.2rem;
+  font-style: italic; 
+  padding: 3rem 0 1rem 0;
+}
